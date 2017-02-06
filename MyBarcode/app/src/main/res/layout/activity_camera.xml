@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.addweup.mybarcode.CameraActivity">
+    tools:context="com.addweup.mybarcode.googletest.CameraActivity">
 
     <TextView
         android:layout_width="match_parent"

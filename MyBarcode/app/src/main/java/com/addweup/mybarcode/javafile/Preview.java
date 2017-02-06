@@ -1,4 +1,4 @@
-package com.addweup.mybarcode;
+package com.addweup.mybarcode.javafile;
 
 import android.content.Context;
 import android.view.SurfaceHolder;

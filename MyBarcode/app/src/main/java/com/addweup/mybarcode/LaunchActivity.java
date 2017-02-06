@@ -13,6 +13,12 @@ public class LaunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_launch);
     }
 
+    public void googleBarcodeClick(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, GoogleBarcodeActivity.class);
+        startActivity(intent);
+    }
+
     public void microBlinckClick(View view){
         Intent intent = new Intent();
         intent.setClass(this, MicroBlinkActivity.class);
