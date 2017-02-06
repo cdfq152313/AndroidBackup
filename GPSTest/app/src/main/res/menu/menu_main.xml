@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/passive"
+        android:title="Passive"
+        android:orderInCategory="10"/>
+    <item android:id="@+id/gps"
+        android:title="GPS"
+        android:orderInCategory="20"/>
+    <item android:id="@+id/network"
+        android:title="Network"
+        android:orderInCategory="30" />
+</menu>
