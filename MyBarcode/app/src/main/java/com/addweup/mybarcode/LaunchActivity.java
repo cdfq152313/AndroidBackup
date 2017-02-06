@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.addweup.mybarcode.zxingtest.ZXingCustomizeActivity;
+
 public class LaunchActivity extends AppCompatActivity {
 
     @Override
@@ -28,6 +30,12 @@ public class LaunchActivity extends AppCompatActivity {
     public void zxingClick(View view){
         Intent intent = new Intent();
         intent.setClass(this, ZXingActivity.class);
+        startActivity(intent);
+    }
+
+    public void zxingCustomizedClick(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, ZXingCustomizeActivity.class);
         startActivity(intent);
     }
 }

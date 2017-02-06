@@ -18,16 +18,19 @@
         <activity android:name=".googletest.MainActivity" />
         <activity
             android:name=".googletest.CameraActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:keepScreenOn="true"/>
         <activity
             android:name=".ZXingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            tools:replace="screenOrientation" />
+            tools:replace="screenOrientation"
+            android:keepScreenOn="true"/>
         <activity
             android:name=".MicroBlinkActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:keepScreenOn="true"/>
         <activity android:name=".LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,9 +38,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GoogleBarcodeActivity"
+        <activity
+            android:name=".GoogleBarcodeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:keepScreenOn="true"/>
+        <activity android:name=".zxingtest.ZXingCustomizeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:keepScreenOn="true"/>
     </application>
 
 </manifest>

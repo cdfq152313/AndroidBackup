@@ -33,5 +33,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="microBlinckClick" />
+
+        <Button
+            android:text="Zxing customize layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button2"
+            android:onClick="zxingCustomizedClick"/>
     </LinearLayout>
 </RelativeLayout>
