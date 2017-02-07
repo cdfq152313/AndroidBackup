@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_fragment_try"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.addweup.mytabtry.FragmentTryActivity">
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/myfragment"
+        android:layout_alignParentBottom="true"
+        android:name="com.addweup.mytabtry.fragment.BottonFragment"
+        android:id="@+id/mytabbar"
+        tools:layout="@layout/fragment_bottom">
+    </fragment>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/myfragment"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/mytabbar">
+    </FrameLayout>
+
+</RelativeLayout>
