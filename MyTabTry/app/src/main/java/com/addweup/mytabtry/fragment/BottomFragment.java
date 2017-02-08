@@ -95,32 +95,6 @@ public class BottomFragment extends Fragment {
         return root;
     }
 
-    public void showFirstFragment(){
-        FragmentManager fragmentManager = getActivity().getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if(firstFragment == null){
-            firstFragment = FirstFragment.newInstance("Hello World");
-        }
-        transaction.replace(R.id.myfragment, firstFragment);
-        transaction.commit();
-    }
-
-    public void showSecondFragment(){
-        FragmentManager fragmentManager = getActivity().getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if(secondFragment == null){
-            secondFragment = SecondFragment.newInstance();
-        }
-        transaction.replace(R.id.myfragment, secondFragment);
-        transaction.commit();
-    }
-
-    public void showThirdActivity(){
-        Intent intent = new Intent();
-        intent.setClass(this, ThirdActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
