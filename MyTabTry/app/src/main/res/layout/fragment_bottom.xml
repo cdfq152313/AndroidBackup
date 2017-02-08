@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:context="com.addweup.mytabtry.fragment.BottonFragment">
+    tools:context="com.addweup.mytabtry.fragment.BottomFragment">
 
     <Button
         android:text="First"
@@ -17,5 +17,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/secondButton"
+        android:layout_weight="1" />
+    <Button
+        android:text="Third"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/thirdButton"
         android:layout_weight="1" />
 </LinearLayout>
