@@ -1,25 +1,46 @@
 package com.addweup.mymicrophone;
 
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.support.v7.app.AppCompatActivity;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.yalantis.waves.util.Horizon;
+
 import java.io.File;
-import java.io.IOException;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivity";
     final String recordFileName = "ReportVoice";
     String recordFilePath;
 
+    Horizon mHorizon;
+    GLSurfaceView glSurfaceView;
+    Handler handler = new Handler();
+    byte[] buffer = new byte[128];
+    Random random = new Random();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        glSurfaceView = (GLSurfaceView) findViewById(R.id.glSurfaceView);
+        mHorizon = new Horizon(glSurfaceView, getResources().getColor(R.color.background),
+                44100, 2, 16);
+
+        //here we put some sound data to the buffer
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                random.nextBytes(buffer);
+                mHorizon.updateView(buffer);
+                handler.postDelayed(this, 500);
+            }
+        });
 
         File file = new File(getCacheDir(), recordFileName);
         recordFilePath = file.getAbsolutePath();
