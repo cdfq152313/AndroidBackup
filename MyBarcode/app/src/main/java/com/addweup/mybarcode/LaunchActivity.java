@@ -38,4 +38,10 @@ public class LaunchActivity extends AppCompatActivity {
         intent.setClass(this, ZXingCustomizeActivity.class);
         startActivity(intent);
     }
+
+    public void genQRCodeClick(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, GenQRCodeActivity.class);
+        startActivity(intent);
+    }
 }
