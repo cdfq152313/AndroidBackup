@@ -86,9 +86,11 @@ public class MainActivity extends AppCompatActivity {
             return gpsLocation;
         }
         catch (SecurityException e){
+            e.printStackTrace();
             return null;
         }
         catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

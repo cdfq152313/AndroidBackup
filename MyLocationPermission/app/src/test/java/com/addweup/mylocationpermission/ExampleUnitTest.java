@@ -12,6 +12,19 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+        C1 c1 = new C1();
+        System.out.println(c1.getMyClass());
+        C2 c2 = new C2();
+        System.out.println(c2.getMyClass());
     }
+}
+
+class C1{
+    public String getMyClass(){
+        return C1.this.getClass().getName();
+    }
+}
+
+class C2 extends C1{
+
 }
