@@ -1,24 +1,18 @@
 package com.addweup.mytabtry.fragment;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.addweup.mytabtry.FragmentTryActivity;
 import com.addweup.mytabtry.R;
-import com.addweup.mytabtry.ThirdActivity;
+import com.addweup.mytabtry.base.BaseFragment;
 
 
-public class BottomFragment extends Fragment {
+public class BottomFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

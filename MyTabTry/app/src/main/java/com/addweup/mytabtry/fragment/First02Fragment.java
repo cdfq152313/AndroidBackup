@@ -1,6 +1,5 @@
 package com.addweup.mytabtry.fragment;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.addweup.mytabtry.R;
+import com.addweup.mytabtry.base.BaseFragment;
 
-public class First02Fragment extends Fragment {
+public class First02Fragment extends BaseFragment {
 
     public First02Fragment() {
         // Required empty public constructor

@@ -1,4 +1,4 @@
-package com.addweup.mytabtry.fragment;
+package com.addweup.mytabtry.base;
 
 import android.content.Context;
 import android.net.Uri;

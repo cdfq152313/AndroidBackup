@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.addweup.mytabtry.R;
+import com.addweup.mytabtry.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +19,7 @@ import com.addweup.mytabtry.R;
  * Use the {@link First03Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class First03Fragment extends Fragment {
+public class First03Fragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

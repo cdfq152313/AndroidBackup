@@ -1,6 +1,5 @@
 package com.addweup.mytabtry.fragment;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -12,8 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.addweup.mytabtry.R;
+import com.addweup.mytabtry.base.BaseFragment;
 
-public class FirstFragment extends Fragment implements View.OnClickListener{
+public class FirstFragment extends BaseFragment implements View.OnClickListener{
     static final String TAG = "FirstFragment";
     private static final String ARG_PARAM = "param";
 

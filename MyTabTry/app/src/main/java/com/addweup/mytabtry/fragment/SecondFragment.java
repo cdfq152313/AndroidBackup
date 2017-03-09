@@ -1,6 +1,5 @@
 package com.addweup.mytabtry.fragment;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.addweup.mytabtry.R;
+import com.addweup.mytabtry.base.BaseFragment;
 
-public class SecondFragment extends Fragment {
+public class SecondFragment extends BaseFragment {
     static final String TAG = "SecondFragment";
     public SecondFragment() {
         // Required empty public constructor
@@ -31,9 +31,17 @@ public class SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         Log.i(TAG, String.format("onCreate count: %d", ++onCreateViewCount));
-        return inflater.inflate(R.layout.fragment_second, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_second, container, false);
+        View button = view.findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new MyDialogFragment().show(getFragmentManager(), null);
+            }
+        });
+        return view;
     }
 
     @Override
