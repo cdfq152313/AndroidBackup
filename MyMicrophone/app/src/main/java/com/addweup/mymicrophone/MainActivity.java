@@ -2,6 +2,7 @@ package com.addweup.mymicrophone;
 
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,7 +15,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivity";
-    final String recordFileName = "ReportVoice";
+    final String recordFileName = "ReportVoice.mp4";
     String recordFilePath;
 
     Horizon mHorizon;
@@ -42,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        File file = new File(getCacheDir(), recordFileName);
+//        File file = new File(getCacheDir(), recordFileName);
+        File path = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS);
+        File file = new File(path, recordFileName);
         recordFilePath = file.getAbsolutePath();
         myMediaRecord = new MyMediaRecord();
     }

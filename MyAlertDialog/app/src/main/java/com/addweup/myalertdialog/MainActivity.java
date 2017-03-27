@@ -1,9 +1,8 @@
 package com.addweup.myalertdialog;
 
-import android.app.DialogFragment;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.View;
 
@@ -27,5 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void alert2Click(View view){
         new MyDialogFrament().show(getFragmentManager(), "dialog");
+    }
+
+    public void cancelClick(View view){
+        new MyLifeCycleDialogFragment().show(getFragmentManager(), "dialog");
     }
 }
