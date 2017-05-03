@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -57,10 +58,12 @@ public class GoogleBarcodeActivity extends Activity {
     private GraphicOverlay<BarcodeGraphic> mGraphicOverlay;
 
     // helper objects for detecting taps and pinches.
-//    private ScaleGestureDetector scaleGestureDetector;
-//    private GestureDetector gestureDetector;
 
     TextView display;
+    Handler handler = new Handler();
+
+    GestureDetector gestureDetector;
+    ScaleGestureDetector scaleGestureDetector;
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -82,8 +85,8 @@ public class GoogleBarcodeActivity extends Activity {
             requestCameraPermission();
         }
 
-//        gestureDetector = new GestureDetector(this, new CaptureGestureListener());
-//        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+        gestureDetector = new GestureDetector(this, new CaptureGestureListener());
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         display = (TextView) findViewById(R.id.display);
     }
@@ -120,14 +123,12 @@ public class GoogleBarcodeActivity extends Activity {
                 .show();
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent e) {
-//        boolean b = scaleGestureDetector.onTouchEvent(e);
-//
-//        boolean c = gestureDetector.onTouchEvent(e);
-//
-//        return b || c || super.onTouchEvent(e);
-//    }
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        boolean b = scaleGestureDetector.onTouchEvent(e);
+        boolean c = gestureDetector.onTouchEvent(e);
+        return b || c || super.onTouchEvent(e);
+    }
 
     /**
      * Creates and starts the camera.  Note that this uses a higher resolution in comparison
@@ -149,12 +150,18 @@ public class GoogleBarcodeActivity extends Activity {
         BarcodeGraphicTracker.TrackerListener trackerListener = new BarcodeGraphicTracker.TrackerListener() {
             @Override
             public void onUpdate(final String qrcode) {
-                runOnUiThread(new Runnable() {
+                handler.post(new Runnable() {
                     @Override
                     public void run() {
                         display.setText(qrcode);
                     }
                 });
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        display.setText("NULL");
+                    }
+                }, 5000);
             }
         };
         BarcodeTrackerFactory barcodeFactory = new BarcodeTrackerFactory(trackerListener);
