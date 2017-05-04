@@ -74,7 +74,7 @@ public class CameraPreview extends FrameLayout {
         super.onLayout(changed, left, top, right, bottom);
         Log.i(TAG, "OnLayout");
         if(mCameraSource == null){
-            mCameraSource = createCameraSource(right-left, bottom-top, false, mBarcodeDetector);
+            mCameraSource = createCameraSource(right-left, bottom-top, true, mBarcodeDetector);
             resume();
         }
     }
