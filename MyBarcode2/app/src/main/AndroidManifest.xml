@@ -21,8 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".google.GoogleBarcodeActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+        <activity
+            android:name=".google.GoogleBarcodeActivity"
+            android:theme="@style/AppTheme"
             android:keepScreenOn="true"/>
     </application>
 

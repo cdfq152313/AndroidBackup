@@ -6,16 +6,24 @@
     android:layout_height="match_parent"
     tools:context="com.example.denny.mybarcode2.google.GoogleBarcodeActivity">
 
-
-    <com.example.denny.mybarcode2.google.ui.CameraSourcePreview
-        android:id="@+id/preview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/display"
-        android:text="Hello"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <com.example.denny.mybarcode2.google.ui.CameraPreview
+            android:id="@+id/preview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"/>
+
+        <TextView
+            android:id="@+id/display"
+            android:text="Hello"
+            android:background="#ffffff"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+    </LinearLayout>
 
 </RelativeLayout>

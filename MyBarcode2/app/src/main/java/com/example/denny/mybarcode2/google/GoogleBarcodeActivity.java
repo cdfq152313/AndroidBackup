@@ -1,65 +1,53 @@
 package com.example.denny.mybarcode2.google;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.denny.mybarcode2.R;
 import com.example.denny.mybarcode2.google.ui.BarcodeTracker;
-import com.example.denny.mybarcode2.google.ui.CameraSourcePreview;
-
-import java.io.IOException;
+import com.example.denny.mybarcode2.google.ui.CameraPreview;
 
 public class GoogleBarcodeActivity extends AppCompatActivity {
     static final String TAG = "GVisionAct";
 
     Handler uiHandler = new Handler();
     TextView textView;
-    CameraSourcePreview preview;
+    CameraPreview preview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_barcode);
         textView = (TextView) findViewById(R.id.display);
-        preview = (CameraSourcePreview) findViewById(R.id.preview);
+        preview = (CameraPreview) findViewById(R.id.preview);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            preview.setListener(new BarcodeTracker.Listener() {
-                @Override
-                public void onUpdate(String qrcode) {
-                    displayText(qrcode);
-                }
-            });
-            preview.start();
-        }catch (IOException e){
-            Log.e(TAG, "Could not start camera source.", e);
-        }catch (SecurityException e){
-            Log.e(TAG, "Do not have permission to start the camera", e);
-        }
+        Log.i(TAG, "OnResume");
+        preview.setListener(new BarcodeTracker.Listener() {
+            @Override
+            public void onUpdate(String qrcode) {
+                displayText(qrcode);
+            }
+        });
+        preview.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (preview != null) {
-            preview.stop();
-        }
+        preview.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (preview != null) {
-            preview.release();
-        }
+        preview.destroy();
     }
 
     public void displayText(final String text){
