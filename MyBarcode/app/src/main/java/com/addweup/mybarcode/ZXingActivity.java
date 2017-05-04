@@ -2,15 +2,14 @@ package com.addweup.mybarcode;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.zxing.ResultPoint;
-import com.google.zxing.client.android.BeepManager;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -22,7 +21,6 @@ import java.util.List;
 public class ZXingActivity extends AppCompatActivity {
     private static final String TAG = ZXingActivity.class.getSimpleName();
     private DecoratedBarcodeView barcodeView;
-    private BeepManager beepManager;
     private String lastText;
 
     private BarcodeCallback callback = new BarcodeCallback() {
@@ -35,7 +33,6 @@ public class ZXingActivity extends AppCompatActivity {
 
             lastText = result.getText();
             barcodeView.setStatusText(result.getText());
-            beepManager.playBeepSoundAndVibrate();
 
             //Added preview of scanned barcode
             ImageView imageView = (ImageView) findViewById(R.id.imageView);
@@ -57,7 +54,6 @@ public class ZXingActivity extends AppCompatActivity {
 
         barcodeView.decodeContinuous(callback);
 
-        beepManager = new BeepManager(this);
     }
 
     @Override
