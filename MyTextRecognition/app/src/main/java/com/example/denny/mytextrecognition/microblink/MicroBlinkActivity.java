@@ -17,6 +17,7 @@ import com.microblink.recognizers.settings.RecognizerSettings;
 public class MicroBlinkActivity extends AppCompatActivity {
 
     static final int DEFAULT_REQUEST_CODE = 9543;
+    static final int CUSTOMIZE_REQUEST_CODE = 9547;
 
     TextView display;
 
@@ -29,7 +30,8 @@ public class MicroBlinkActivity extends AppCompatActivity {
     }
 
     public void customizeClick(View view){
-
+        Intent intent = new Intent(this, CustomizeAcitivity.class);
+        startActivityForResult(intent, CUSTOMIZE_REQUEST_CODE);
     }
 
     public void defaultClick(View view){
@@ -57,21 +59,26 @@ public class MicroBlinkActivity extends AppCompatActivity {
 
         if (requestCode == DEFAULT_REQUEST_CODE) {
             if (resultCode == ScanCard.RESULT_OK && data != null) {
-                // perform processing of the data here
-
-                // for example, obtain parcelable recognition result
-                Bundle extras = data.getExtras();
                 RecognitionResults result = data.getParcelableExtra(ScanCard.EXTRAS_RECOGNITION_RESULTS);
-
-                // get array of recognition results
-                BaseRecognitionResult[] resultArray = result.getRecognitionResults();
-                StringBuilder builder = new StringBuilder();
-                for(BaseRecognitionResult e: resultArray){
-                    builder.append(e.toString());
-                }
-                display.setText(builder.toString());
+                displayResult(result);
             }
         }
+        else if(requestCode == CUSTOMIZE_REQUEST_CODE){
+            if (resultCode == CustomizeAcitivity.RESULT_OK && data != null) {
+                RecognitionResults result = data.getParcelableExtra(CustomizeAcitivity.EXTRAS_RECOGNITION_RESULTS);
+                displayResult(result);
+            }
+        }
+    }
+
+    void displayResult(RecognitionResults result){
+        // get array of recognition results
+        BaseRecognitionResult[] resultArray = result.getRecognitionResults();
+        StringBuilder builder = new StringBuilder();
+        for(BaseRecognitionResult e: resultArray){
+            builder.append(e.toString());
+        }
+        display.setText(builder.toString());
     }
 
     private RecognizerSettings[] setupSettingsArray() {
