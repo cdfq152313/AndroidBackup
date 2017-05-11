@@ -5,23 +5,28 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.denny.mytextrecognition.R;
 import com.google.android.cameraview.CameraView;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class CameraViewActivity extends AppCompatActivity {
     public static final String TAG = "CameraView";
 
     CameraView cameraView;
-    Handler handler;
-    HandlerThread handlerThread;
+    TextView display;
     TessBaseAPI baseApi;
+
+    Executor executor;
+    Handler uiHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +34,10 @@ public class CameraViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera_view);
 
         initCamera();
-        initHandler();
         initTessBaseAPI();
-    }
-
-    public void initHandler(){
-        handlerThread = new HandlerThread("Worker");
-        handlerThread.start();
-        handler = new Handler(handlerThread.getLooper());
+        display = (TextView) findViewById(R.id.display);
+        executor = Executors.newSingleThreadExecutor();
+        uiHandler = new Handler();
     }
 
     public void initCamera(){
@@ -52,46 +53,57 @@ public class CameraViewActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         cameraView.start();
-        handler.post(takePictureContinuously);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        handler.removeCallbacks(takePictureContinuously);
         cameraView.stop();
     }
 
-    Runnable takePictureContinuously = new Runnable() {
-        @Override
-        public void run() {
-            cameraView.takePicture();
-            handler.postDelayed(takePictureContinuously, 1500);
-        }
-    };
-
+    public void takePictureClick(View view){
+        cameraView.takePicture();
+    }
 
     CameraView.Callback parseImage = new CameraView.Callback() {
         @Override
-        public void onPictureTaken(CameraView cameraView, byte[] data) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 8;
-            Bitmap bImage = BitmapFactory.decodeByteArray(data, 0, data.length, options);
-
-            File download = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            File [] files = download.listFiles();
-            for(File file: files){
-                if(file.getName().equals("tesseract")){
-                    Log.i(TAG, "Parse start");
-                    baseApi.init(file.getAbsolutePath(), null);
-                    baseApi.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK_VERT_TEXT);
-                    baseApi.setImage(bImage);
-
-                    Log.i(TAG, baseApi.getUTF8Text());
-                    baseApi.clear();
-                    baseApi.end();
+        public void onPictureTaken(CameraView cameraView, final byte[] data) {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    long start = System.currentTimeMillis();
+                    Bitmap bImage = loadImage(data);
+                    final String result = parseData(bImage);
+                    long end = System.currentTimeMillis();
+                    Log.i(TAG, "Process Tsime : " + (end-start) + "ms" );
+                    uiHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            display.setText(result);
+                        }
+                    });
                 }
-            }
+            });
         }
     };
+
+    public Bitmap loadImage(byte [] data){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 8;
+        Bitmap bImage = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        return bImage;
+    }
+
+    public String parseData(Bitmap bImage){
+        File download = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+        baseApi.init(download.getAbsolutePath(), "eng");
+        baseApi.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO);
+        baseApi.setImage(bImage);
+
+        String result = baseApi.getUTF8Text();
+        baseApi.clear();
+        baseApi.end();
+        return result;
+    }
 }

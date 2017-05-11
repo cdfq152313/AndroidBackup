@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.example.denny.mytextrecognition.cameraview.CameraViewActivity;
 import com.example.denny.mytextrecognition.google.GoogleVisionActivity;
+import com.example.denny.mytextrecognition.microblink.MicroBlinkActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
     public void cameraViewClick(View view){
         Intent intent = new Intent();
         intent.setClass(this, CameraViewActivity.class);
+        startActivity(intent);
+    }
+
+    public void microBlinkClick(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, MicroBlinkActivity.class);
         startActivity(intent);
     }
 }

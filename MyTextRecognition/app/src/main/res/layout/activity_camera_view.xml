@@ -12,8 +12,21 @@
         android:layout_height="match_parent"
         android:keepScreenOn="true"
         android:adjustViewBounds="true"
-        app:autoFocus="false"
+        app:autoFocus="true"
         app:aspectRatio="4:3"
         app:facing="back"
         app:flash="off"/>
+
+    <TextView
+        android:id="@+id/display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="Take Picture"
+        android:onClick="takePictureClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+
 </RelativeLayout>

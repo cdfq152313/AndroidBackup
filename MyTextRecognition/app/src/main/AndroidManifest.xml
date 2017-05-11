@@ -3,6 +3,7 @@
     package="com.example.denny.mytextrecognition">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -24,7 +25,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".google.GoogleVisionActivity" />
-        <activity android:name=".cameraview.CameraViewActivity"></activity>
+        <activity android:name=".cameraview.CameraViewActivity" />
+        <activity android:name=".microblink.MicroBlinkActivity" />
+        <activity android:name=".microblink.CustomizeAcitivity"></activity>
     </application>
 
 </manifest>
