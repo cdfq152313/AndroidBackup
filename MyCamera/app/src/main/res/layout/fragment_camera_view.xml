@@ -2,35 +2,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".display.DisplayFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".cameraview.CameraViewFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/display_layout">
+        android:id="@+id/camera_layout">
 
-        <ImageView
-            android:id="@+id/display_view"
+        <com.google.android.cameraview.CameraView
+            android:id="@+id/camera_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:keepScreenOn="true"
+            android:adjustViewBounds="true"
+            app:autoFocus="true"
+            app:aspectRatio="4:3"
+            app:facing="back"
+            app:flash="auto"/>
 
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
+            android:text="TakePicture"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:onClick="cancel" />
-
-        <TextView
-            android:id="@+id/message"
-            android:background="#ffffff"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" />
-
+            android:onClick="takePicture" />
     </RelativeLayout>
 
 </FrameLayout>

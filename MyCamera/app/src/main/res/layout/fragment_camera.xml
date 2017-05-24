@@ -1,34 +1,21 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.denny.mycamera.Camera.CameraFragment">
+    >
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/camera_layout">
+        android:layout_weight="1"
+        />
 
-        <com.google.android.cameraview.CameraView
-            android:id="@+id/camera_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:keepScreenOn="true"
-            android:adjustViewBounds="true"
-            app:autoFocus="true"
-            app:aspectRatio="4:3"
-            app:facing="back"
-            app:flash="auto"/>
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TakePicture"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:onClick="takePicture" />
-    </RelativeLayout>
-
-</FrameLayout>
+    <Button
+        android:id="@+id/button_capture"
+        android:text="Capture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

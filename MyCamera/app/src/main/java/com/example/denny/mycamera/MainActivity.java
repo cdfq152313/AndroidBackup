@@ -1,20 +1,17 @@
 package com.example.denny.mycamera;
 
 import android.Manifest;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
-import com.example.denny.mycamera.Camera.CameraFragment;
-import com.example.denny.mycamera.Display.DisplayFragment;
+import com.example.denny.mycamera.camera2.Camera2Activity;
 
 public class MainActivity extends AppCompatActivity {
-
-    byte [] imageResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkPermission();
-        showCameraFragment();
     }
 
     public void checkPermission(){
@@ -34,25 +30,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showCameraFragment(){
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.content, CameraFragment.newInstance(), null);
-        transaction.commit();
+    public void cameraViewClick(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, CameraActivity.class);
+        intent.putExtra(CameraActivity.INIT_FRAGMENT, CameraActivity.CAMERAVIEW_FRAGMENT);
+        startActivity(intent);
     }
 
-    public void showDisplayFragment(){
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.content, DisplayFragment.newInstance(), null);
-        transaction.commit();
+    public void cameraClick(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, CameraActivity.class);
+        intent.putExtra(CameraActivity.INIT_FRAGMENT, CameraActivity.CAMERA_FRAGMENT);
+        startActivity(intent);
     }
 
-    public void setImageResult(byte[] data){
-        imageResult = data;
+    public void camera2Click(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, CameraActivity.class);
+        intent.putExtra(CameraActivity.INIT_FRAGMENT, CameraActivity.CAMERA2_FRAGMENT);
+        startActivity(intent);
     }
 
-    public byte[] getImageResult(){
-        return imageResult;
-    }
 }

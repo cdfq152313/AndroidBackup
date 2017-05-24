@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.denny.mycamera.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/content"
+    <Button
+        android:onClick="cameraViewClick"
+        android:text="Camera View"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</RelativeLayout>
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:onClick="cameraClick"
+        android:text="Camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:onClick="camera2Click"
+        android:text="Camera2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
