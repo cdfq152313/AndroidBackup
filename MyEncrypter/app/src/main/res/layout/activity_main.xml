@@ -76,14 +76,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Hello World!"
+            android:text="MzZ5kM1tJvnJvu8jYRXGXr1/RToyX1vbE98K/Ul7d10="
             android:id="@+id/display4" />
 
-        <Button
-            android:text="Export Key"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="export"/>
+            android:orientation="vertical">
+
+            <Button
+                android:text="Export Key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="exportKey"/>
+
+            <Button
+                android:text="Import Key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="importKey"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <ScrollView
