@@ -3,16 +3,20 @@ package com.example.denny.mytextrecognition.microblink;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.denny.mytextrecognition.R;
+import com.example.denny.mytextrecognition.microblink.fragment.ContainerActivity;
 import com.microblink.activity.ScanCard;
 import com.microblink.recognizers.BaseRecognitionResult;
 import com.microblink.recognizers.RecognitionResults;
+import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognizerSettings;
 import com.microblink.recognizers.settings.RecognitionSettings;
 import com.microblink.recognizers.settings.RecognizerSettings;
+import com.microblink.results.ocr.OcrResult;
 
 public class MicroBlinkActivity extends AppCompatActivity {
 
@@ -29,8 +33,13 @@ public class MicroBlinkActivity extends AppCompatActivity {
         display = (TextView) findViewById(R.id.display);
     }
 
-    public void customizeClick(View view){
+    public void customizeActClick(View view){
         Intent intent = new Intent(this, CustomizeAcitivity.class);
+        startActivityForResult(intent, CUSTOMIZE_REQUEST_CODE);
+    }
+
+    public void customizeFragClick(View view){
+        Intent intent = new Intent(this, ContainerActivity.class);
         startActivityForResult(intent, CUSTOMIZE_REQUEST_CODE);
     }
 
@@ -41,7 +50,7 @@ public class MicroBlinkActivity extends AppCompatActivity {
         // set your licence key
         // obtain your licence key at http://microblink.com/login or
         // contact us at http://help.microblink.com
-        intent.putExtra(ScanCard.EXTRAS_LICENSE_KEY, "INRI37N4-M4YTK7UV-73PPICOR-FOXVCMXL-I3DPHREE-27XIBUSB-KW6S6PVU-MFOTFEC3");
+        intent.putExtra(ScanCard.EXTRAS_LICENSE_KEY, "DQVR67N7-PHBFYRHG-LDFATZUX-7LLCAH2M-BYGXYQ6R-FT4G76J4-ZOHV3ZOW-FBSCTRP6");
 
         RecognitionSettings settings = new RecognitionSettings();
         // setup array of recognition settings (described in chapter "Recognition
@@ -60,13 +69,13 @@ public class MicroBlinkActivity extends AppCompatActivity {
         if (requestCode == DEFAULT_REQUEST_CODE) {
             if (resultCode == ScanCard.RESULT_OK && data != null) {
                 RecognitionResults result = data.getParcelableExtra(ScanCard.EXTRAS_RECOGNITION_RESULTS);
-                displayResult(result);
+                displayResult2(result);
             }
         }
         else if(requestCode == CUSTOMIZE_REQUEST_CODE){
             if (resultCode == CustomizeAcitivity.RESULT_OK && data != null) {
                 RecognitionResults result = data.getParcelableExtra(CustomizeAcitivity.EXTRAS_RECOGNITION_RESULTS);
-                displayResult(result);
+                displayResult2(result);
             }
         }
     }
@@ -79,6 +88,83 @@ public class MicroBlinkActivity extends AppCompatActivity {
             builder.append(e.toString());
         }
         display.setText(builder.toString());
+    }
+
+    static String TAG = "MicroBlink";
+    void displayResult2(RecognitionResults results){
+        BaseRecognitionResult[] dataArray = results.getRecognitionResults();
+        Log.i(TAG, "DataArray length: " + dataArray.length);
+        for(BaseRecognitionResult baseResult : dataArray) {
+            if(baseResult instanceof MRTDRecognitionResult) {
+                MRTDRecognitionResult result = (MRTDRecognitionResult) baseResult;
+
+                // you can use getters of MRTDRecognitionResult class to
+                // obtain scanned information
+                if(result.isValid() && !result.isEmpty()) {
+                    if(result.isMRZParsed()) {
+                        PassportData data = new PassportData();
+                        data.name = String.format("%s %s" ,result.getPrimaryId(),result.getSecondaryId());
+                        data.nationality = result.getNationality();
+                        data.passport_number = result.getDocumentNumber();
+                        data.expire_date = result.getRawDateOfExpiry();
+                        data.date_of_birth = result.getRawDateOfBirth();
+                        data.gender = result.getSex();
+                        data.raw_data = result.getMRZText();
+                        display.setText(data.toString());
+                    } else {
+                        OcrResult rawOcr = result.getOcrResult();
+                        // attempt to parse OCR result by yourself
+                        // or ask user to try again
+                    }
+                    // If additional fields of interest are expected, obtain
+                    // results here. Here we assume that each parser is the only parser in its
+                    // group, and parser name is equal to the group name.
+                    // e.g. we have member variable
+                    // private String[] mParserNames = new String[]{address, dateOfBirth};
+//                    for (String parserName : mParserNames) {
+//                        // use getParsedResult(String parserGroupName, String parserName)
+//                        String groupName = parserName;
+//                        String parsedResult = result.getParsedResult(groupName, parserName);
+//                        // check whether parsing was successfull (parsedResult is not null nor empty)
+//                        if (parsedResult != null && !parsedResult.isEmpty()) {
+//                            // do something with the result
+//                        } else {
+//                            // you can read unparsed raw ocr result if parsing was unsuccessful
+//                            // use getOcrResult(String parserGroupName)
+//                            String ocrResult = result.getOcrResult(groupName);
+//                            // attempt to parse OCR result by yourself
+//                        }
+//                    }
+                } else {
+                    // not all relevant data was scanned, ask user
+                    // to try again
+                }
+            }
+        }
+    }
+
+    class PassportData{
+        String name;
+        String nationality;
+        String passport_number;
+        String expire_date;
+        String date_of_birth;
+        String gender;
+        String raw_data;
+        String passport_image_url;
+
+        @Override
+        public String toString() {
+            return "PassportData{" +
+                    "\nname='" + name + '\'' +
+                    "\nnationality='" + nationality + '\'' +
+                    "\npassport_number='" + passport_number + '\'' +
+                    "\nexpire_date='" + expire_date + '\'' +
+                    "\ndate_of_birth='" + date_of_birth + '\'' +
+                    "\ngender='" + gender + '\'' +
+                    "\nraw_data='" + raw_data + '\'' +
+                    "\n}";
+        }
     }
 
     private RecognizerSettings[] setupSettingsArray() {

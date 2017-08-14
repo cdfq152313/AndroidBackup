@@ -25,4 +25,29 @@
         android:layout_height="wrap_content"
         android:onClick="zxingOriginClick"/>
 
+    <Button
+        android:text="Twitter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="twitterClick"/>
+
+    <Button
+        android:text="Origin Camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="originCameraClick"/>
+
+    <Button
+        android:text="Available Camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="availableClick"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:text="Hello"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 </LinearLayout>

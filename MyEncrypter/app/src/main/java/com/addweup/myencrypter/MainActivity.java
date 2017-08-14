@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             long start= System.currentTimeMillis();
             secretKey = aesTool.genAESKey();
-            iv = aesTool.genInitializationVector();
+            iv = aesTool.genIV();
             long end = System.currentTimeMillis();
             display1.setText("Milliseconds: " + (end-start) );
         } catch (Exception e) {
@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void exportKey(View view){
-        String secretKeyB64 = aesTool.secretKeyToString(secretKey);
-        String vectorB64 = aesTool.ivToString(iv);
+        String secretKeyB64 = aesTool.secretKeyToBase64(secretKey);
+        String vectorB64 = aesTool.ivToBase64(iv);
 
         display4.setText(secretKeyB64);
         Log.i("Export", String.format("SecretKey B64: %s", secretKeyB64));
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void importKey(View view){
         String secretKeyB64 = display4.getText().toString();
-        secretKey = aesTool.stringToSecretKey(secretKeyB64);
+        secretKey = aesTool.base64ToSecretKey(secretKeyB64);
         Toast.makeText(this, "Read Successfully", Toast.LENGTH_SHORT).show();
     }
 }

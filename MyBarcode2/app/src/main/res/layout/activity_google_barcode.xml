@@ -6,24 +6,40 @@
     android:layout_height="match_parent"
     tools:context="com.example.denny.mybarcode2.google.GoogleBarcodeActivity">
 
-    <LinearLayout
+
+    <com.example.denny.mybarcode2.google.ui.BarcodeScanner
+        android:id="@+id/preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent" />
 
-        <com.example.denny.mybarcode2.google.ui.CameraPreview
-            android:id="@+id/preview"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"/>
+    <TextView
+        android:id="@+id/display"
+        android:text="Hello"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonLayout"
+         />
 
-        <TextView
-            android:id="@+id/display"
-            android:text="Hello"
-            android:background="#ffffff"
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:text="QRCode"
+            android:id="@+id/button1"
+            android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="PDF417"
+            android:id="@+id/button2"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>

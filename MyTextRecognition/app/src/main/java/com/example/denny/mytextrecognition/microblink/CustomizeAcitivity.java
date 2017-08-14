@@ -48,7 +48,7 @@ public class CustomizeAcitivity extends Activity implements ScanResultListener, 
 
         try {
             // set license key
-            mRecognizerView.setLicenseKey("INRI37N4-M4YTK7UV-73PPICOR-FOXVCMXL-I3DPHREE-27XIBUSB-KW6S6PVU-MFOTFEC3");
+            mRecognizerView.setLicenseKey("DQVR67N7-PHBFYRHG-LDFATZUX-7LLCAH2M-BYGXYQ6R-FT4G76J4-ZOHV3ZOW-FBSCTRP6");
         } catch (InvalidLicenceKeyException exc) {
             finish();
             return;

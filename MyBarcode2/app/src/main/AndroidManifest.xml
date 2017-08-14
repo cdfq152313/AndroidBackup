@@ -8,6 +8,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,9 +26,10 @@
             android:name=".google.GoogleBarcodeActivity"
             android:keepScreenOn="true"
             android:theme="@style/AppTheme" />
-        <activity android:name=".zxing.ZXingActivity" />
         <activity android:name=".zxingJourneyapps.ZXingJourneyAppsActivity" />
-        <activity android:name=".zxingOrig.ZXingOriginActivity"></activity>
+        <activity android:name=".zxingOrig.ZXingOriginActivity" />
+        <activity android:name=".twitter.TwitterActivity" />
+        <activity android:name=".own.OriginCameraActivity"></activity>
     </application>
 
 </manifest>

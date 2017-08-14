@@ -32,8 +32,7 @@ public class AESTool {
         return keyGen.generateKey();
     }
 
-    public IvParameterSpec genInitializationVector() throws NoSuchPaddingException, NoSuchAlgorithmException {
-
+    public IvParameterSpec genIV() throws NoSuchPaddingException, NoSuchAlgorithmException {
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         byte [] iVAES = new byte[ cipher.getBlockSize() ];
         random.nextBytes(iVAES);
@@ -55,15 +54,15 @@ public class AESTool {
         return new String(decodeBytes);
     }
 
-    public String secretKeyToString(SecretKey secretKey){
+    public String secretKeyToBase64(SecretKey secretKey){
         return Base64.encodeToString(secretKey.getEncoded(), Base64.DEFAULT);
     }
 
-    public String ivToString(IvParameterSpec iv){
+    public String ivToBase64(IvParameterSpec iv){
         return Base64.encodeToString(iv.getIV(), Base64.DEFAULT);
     }
 
-    public SecretKey stringToSecretKey(String base64Key){
+    public SecretKey base64ToSecretKey(String base64Key){
         byte [] key = Base64.decode(base64Key, Base64.DEFAULT);
         SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
         return secretKeySpec;

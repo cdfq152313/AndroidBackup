@@ -22,11 +22,18 @@
                 android:onClick="defaultClick"/>
 
             <Button
-                android:text="Customize"
+                android:text="Cus Act"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:onClick="customizeClick"/>
+                android:onClick="customizeActClick"/>
+
+            <Button
+                android:text="Cus Frag"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:onClick="customizeFragClick"/>
 
         </LinearLayout>
 

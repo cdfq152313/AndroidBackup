@@ -31,6 +31,7 @@ public class ZXingJourneyAppsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         barcodeView.decodeContinuous(callback);
         barcodeView.resume();
     }

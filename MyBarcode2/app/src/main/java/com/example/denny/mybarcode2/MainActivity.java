@@ -8,8 +8,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.denny.mybarcode2.google.GoogleBarcodeActivity;
+import com.example.denny.mybarcode2.google.ui.CameraHelper;
+import com.example.denny.mybarcode2.own.OriginCameraActivity;
+import com.example.denny.mybarcode2.twitter.TwitterActivity;
 import com.example.denny.mybarcode2.zxingJourneyapps.ZXingJourneyAppsActivity;
 import com.example.denny.mybarcode2.zxingOrig.ZXingOriginActivity;
 
@@ -17,10 +21,13 @@ public class MainActivity extends AppCompatActivity {
 
     static final int PERMISSION = 1234;
 
+    TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        textView = (TextView) findViewById(R.id.textView);
         requirePermission();
     }
 
@@ -40,6 +47,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(this, ZXingOriginActivity.class);
         startActivity(intent);
+    }
+
+    public void twitterClick(View view){
+        Intent intent = new Intent(this, TwitterActivity.class);
+        startActivity(intent);
+    }
+
+    public void originCameraClick(View view){
+        Intent intent = new Intent(this, OriginCameraActivity.class);
+        startActivity(intent);
+    }
+
+    public void availableClick(View view){
+        String a = CameraHelper.getInstance().getInfo();
+        CameraHelper.getInstance().displayAvailableSize();
+        textView.setText(a);
     }
 
     public void requirePermission(){
