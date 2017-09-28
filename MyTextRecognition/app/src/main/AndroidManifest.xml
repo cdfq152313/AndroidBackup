@@ -28,7 +28,7 @@
         <activity android:name=".cameraview.CameraViewActivity" />
         <activity android:name=".microblink.MicroBlinkActivity" />
         <activity android:name=".microblink.CustomizeAcitivity" />
-        <activity android:name=".microblink.fragment.ContainerActivity"></activity>
+        <activity android:name=".microblink.BitmapActivity"></activity>
     </application>
 
 </manifest>

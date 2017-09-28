@@ -123,7 +123,7 @@ public class BarcodeScanner extends FrameLayout {
     CameraSource createCameraSource(int width, int height, boolean autoFocus, BarcodeDetector detector){
         Context context = getContext().getApplicationContext();
         CameraSource.Builder builder = new CameraSource.Builder(context, detector)
-                .setFacing(CameraSource.CAMERA_FACING_FRONT)
+                .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedPreviewSize(width, height)
                 .setRequestedFps(15.0f)
                 .setAutoFocusEnabled(autoFocus);

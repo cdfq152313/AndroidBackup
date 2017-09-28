@@ -29,11 +29,11 @@
                 android:onClick="customizeActClick"/>
 
             <Button
-                android:text="Cus Frag"
+                android:text="Bitmap"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:onClick="customizeFragClick"/>
+                android:onClick="bitmapClick"/>
 
         </LinearLayout>
 

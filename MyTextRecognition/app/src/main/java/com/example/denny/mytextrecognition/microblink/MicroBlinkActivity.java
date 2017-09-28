@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.denny.mytextrecognition.R;
-import com.example.denny.mytextrecognition.microblink.fragment.ContainerActivity;
 import com.microblink.activity.ScanCard;
 import com.microblink.recognizers.BaseRecognitionResult;
 import com.microblink.recognizers.RecognitionResults;
@@ -38,8 +37,8 @@ public class MicroBlinkActivity extends AppCompatActivity {
         startActivityForResult(intent, CUSTOMIZE_REQUEST_CODE);
     }
 
-    public void customizeFragClick(View view){
-        Intent intent = new Intent(this, ContainerActivity.class);
+    public void bitmapClick(View view){
+        Intent intent = new Intent(this, BitmapActivity.class);
         startActivityForResult(intent, CUSTOMIZE_REQUEST_CODE);
     }
 
@@ -50,7 +49,7 @@ public class MicroBlinkActivity extends AppCompatActivity {
         // set your licence key
         // obtain your licence key at http://microblink.com/login or
         // contact us at http://help.microblink.com
-        intent.putExtra(ScanCard.EXTRAS_LICENSE_KEY, "DQVR67N7-PHBFYRHG-LDFATZUX-7LLCAH2M-BYGXYQ6R-FT4G76J4-ZOHV3ZOW-FBSCTRP6");
+        intent.putExtra(ScanCard.EXTRAS_LICENSE_KEY, "RGDQ4HOZ-SOWAK7K3-KWQFMSSK-62TQCNGN-FWDPQ37Z-HTFY6XKF-XRXCCJBQ-R3W5UNGO");
 
         RecognitionSettings settings = new RecognitionSettings();
         // setup array of recognition settings (described in chapter "Recognition
@@ -140,30 +139,6 @@ public class MicroBlinkActivity extends AppCompatActivity {
                     // to try again
                 }
             }
-        }
-    }
-
-    class PassportData{
-        String name;
-        String nationality;
-        String passport_number;
-        String expire_date;
-        String date_of_birth;
-        String gender;
-        String raw_data;
-        String passport_image_url;
-
-        @Override
-        public String toString() {
-            return "PassportData{" +
-                    "\nname='" + name + '\'' +
-                    "\nnationality='" + nationality + '\'' +
-                    "\npassport_number='" + passport_number + '\'' +
-                    "\nexpire_date='" + expire_date + '\'' +
-                    "\ndate_of_birth='" + date_of_birth + '\'' +
-                    "\ngender='" + gender + '\'' +
-                    "\nraw_data='" + raw_data + '\'' +
-                    "\n}";
         }
     }
 
