@@ -1,56 +1,81 @@
 package com.example.denny.mybluetooth;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.IOException;
+import com.addweup.awubluetooth.BluetoothDeviceUtils;
+import com.addweup.awubluetooth.io.BluetoothIO;
+import com.addweup.awubluetooth.io.BluetoothIOFactory;
+
 import java.util.Set;
-import java.util.UUID;
 
-public class ClientActivity extends AppCompatActivity implements Runnable {
+public class ClientActivity extends AppCompatActivity implements BluetoothIO.Listener {
 
     public static final String TAG = "BTClient";
 
     TextView textView;
     EditText editText;
+    ListView listView;
 
-    HandlerThread handlerThread;
-    Handler bgHandler;
+    Handler uiHandler = new Handler();
+
+    BluetoothIO bluetoothIO;
+    Set<BluetoothDevice> pairDevices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
+        pairDevices = BluetoothDeviceUtils.listPairDevices();
+        initView();
+    }
+
+    private void initView(){
         textView = (TextView) findViewById(R.id.textView);
         editText = (EditText) findViewById(R.id.editText);
+        listView = (ListView) findViewById(R.id.listView);
 
-        handlerThread = new HandlerThread("client");
-        handlerThread.start();
-        bgHandler = new Handler(handlerThread.getLooper());
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, BluetoothDeviceUtils.listPairDevicesNameString(pairDevices)));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String deviceName = (String) adapterView.getItemAtPosition(i);
+                for(BluetoothDevice device:pairDevices){
+                    if(device.getName().equals(deviceName)){
+                        bluetoothIO = BluetoothIOFactory.client(device, BluetoothConfig.UUID);
+                        bluetoothIO.connect();
+                        bluetoothIO.setListener(ClientActivity.this);
+                        display("Connecting");
+                        return;
+                    }
+                }
+                Toast.makeText(ClientActivity.this, "Not Found", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart: ");
-        bgHandler.post(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        if(bluetoothIO != null){
+            bluetoothIO.disconnect();
+        }
     }
 
-    Handler uiHandler = new Handler();
     public void display(final String s){
         uiHandler.post(new Runnable() {
             @Override
@@ -60,80 +85,25 @@ public class ClientActivity extends AppCompatActivity implements Runnable {
         });
     }
 
-    public void reconnectClick(View view){
-        if(helper != null){
-            helper.close();
-            helper = null;
-        }
-        bgHandler.post(this);
-    }
-
     public void sendClick(View view){
-        if(helper != null){
-            String text = editText.getText().toString();
-            Log.d(TAG, "sendClick: " + text);
-            helper.send(text);
+        if(bluetoothIO == null){
+            return;
         }
+        bluetoothIO.send(editText.getText().toString());
     }
-
-    BluetoothManager helper;
 
     @Override
-    public void run() {
-        Log.d(TAG, "run: ");
-        BluetoothDevice device = initDevice();
-        if(device == null){
-            display("Initial Device Failed");
-            return;
-        }
-
-        helper = initHelper(device);
-        if(helper == null){
-            display("Initial Helper Failed");
-            return;
-        }
-        display("Inital Successfully");
-        bgHandler.post(continuousDisplayMessage);
+    public void onConnect() {
+        display("Connected");
     }
 
-    public BluetoothDevice initDevice(){
-        Log.d(TAG, "initDevice: ");
-        Set<BluetoothDevice> pairedDevices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
-
-        if (pairedDevices.size() > 0) {
-            // There are paired devices. Get the name and address of each paired device.
-            for (BluetoothDevice device : pairedDevices) {
-                String deviceName = device.getName();
-                String deviceHardwareAddress = device.getAddress(); // MAC address
-                display(String.format("DeviceName: %s\nDeviceMac: %s", deviceName, deviceHardwareAddress));
-                return device;
-            }
-        }
-        return null;
+    @Override
+    public void onResponse(String response) {
+        display(response);
     }
 
-    public BluetoothManager initHelper(final BluetoothDevice device){
-        Log.d(TAG, "initHelper: ");
-        try {
-            BluetoothSocket socket = device.createRfcommSocketToServiceRecord(UUID.fromString(BluetoothConfig.UUID));
-            socket.connect();
-            return new BluetoothManager(socket);
-        } catch (IOException e) {
-            // REDO after 3 sec
-            bgHandler.postDelayed(this, 3000);
-            e.printStackTrace();
-            return null;
-        }
+    @Override
+    public void onDisconnect() {
+        display("Disconnected");
     }
-
-    Runnable continuousDisplayMessage = new Runnable() {
-        @Override
-        public void run() {
-            Log.d(TAG, "continuousDisplayMessage start");
-            while (helper != null){
-                display(helper.receive());
-            }
-            Log.d(TAG, "continuousDisplayMessage end");
-        }
-    };
 }

@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -41,24 +40,34 @@ public class BluetoothConnectorServer implements BluetoothConnectorInterface, Ru
     public void disconnect() {
         handler.removeCallbacks(this);
         handlerThread.quit();
+        if(serverSocket != null){
+            try {
+                serverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
+    BluetoothServerSocket serverSocket = null;
 
     @Override
     public void run() {
-        Log.d(TAG, "connecting");
-        // retry until connect
-        BluetoothServerSocket serverSocket;
         try {
-            serverSocket = BluetoothAdapter.getDefaultAdapter().listenUsingRfcommWithServiceRecord(BluetoothConnectorInterface.NAME, UUID.fromString(uuid));
-            BluetoothSocket socket = serverSocket.accept();
-            serverSocket.close();
-            listener.onConnected(socket);
-        } catch (IOException e) {
+            startConnect();
+        }catch (IOException e){
             e.printStackTrace();
             handler.postDelayed(this, RETRY_TIME);
         }
     }
 
+    void startConnect() throws IOException {
+        if (serverSocket == null) {
+            serverSocket = BluetoothAdapter.getDefaultAdapter().listenUsingRfcommWithServiceRecord(BluetoothConnectorInterface.NAME, UUID.fromString(uuid));
+        }
+        BluetoothSocket socket = serverSocket.accept();
+        listener.onConnect(socket);
+    }
 }
 
 

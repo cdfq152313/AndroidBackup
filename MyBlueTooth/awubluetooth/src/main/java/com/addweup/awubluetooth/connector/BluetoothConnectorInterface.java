@@ -15,6 +15,6 @@ public interface BluetoothConnectorInterface {
     void disconnect();
 
     interface ConnectListener{
-        void onConnected(BluetoothSocket socket);
+        void onConnect(BluetoothSocket socket);
     }
 }

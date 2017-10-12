@@ -7,10 +7,11 @@ package com.addweup.awubluetooth.io;
 public interface BluetoothIO{
     void connect();
     void disconnect();
+    void setListener(Listener listener);
     void send(String object);
 
     interface Listener{
-        void onConnected();
+        void onConnect();
         void onResponse(String response);
         void onDisconnect();
     }

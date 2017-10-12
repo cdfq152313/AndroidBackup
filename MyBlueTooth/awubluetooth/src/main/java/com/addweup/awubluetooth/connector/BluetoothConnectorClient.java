@@ -1,5 +1,6 @@
 package com.addweup.awubluetooth.connector;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
@@ -44,10 +45,15 @@ public class BluetoothConnectorClient implements BluetoothConnectorInterface, Ru
 
     @Override
     public void run() {
+        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            handler.postDelayed(this, RETRY_TIME);
+        }
+
         // retry until connect
         try{
             BluetoothSocket socket = device.createRfcommSocketToServiceRecord(UUID.fromString(uuid));
-            listener.onConnected(socket);
+            socket.connect();
+            listener.onConnect(socket);
         }catch (IOException e){
             e.printStackTrace();
             handler.postDelayed(this, RETRY_TIME);

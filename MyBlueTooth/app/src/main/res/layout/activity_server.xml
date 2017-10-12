@@ -7,12 +7,6 @@
     android:orientation="vertical"
     tools:context="com.example.denny.mybluetooth.ServerActivity">
 
-    <Button
-        android:text="Restart"
-        android:onClick="reStartClick"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

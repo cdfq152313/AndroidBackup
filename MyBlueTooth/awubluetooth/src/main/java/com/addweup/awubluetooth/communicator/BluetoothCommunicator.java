@@ -38,7 +38,9 @@ public class BluetoothCommunicator implements BluetoothCommunicatorInterface{
         this.listener = listener;
 
         sendHandlerThread = new HandlerThread(SENDTAG);
+        sendHandlerThread.start();
         recvHandlerThread = new HandlerThread(RECVTAG);
+        recvHandlerThread.start();
 
         sendHandler = new Handler(sendHandlerThread.getLooper());
         recvHandler = new Handler(recvHandlerThread.getLooper());
@@ -46,7 +48,6 @@ public class BluetoothCommunicator implements BluetoothCommunicatorInterface{
         bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         printWriter = new PrintWriter(socket.getOutputStream());
 
-        socket.connect();
         startReceive();
     }
 

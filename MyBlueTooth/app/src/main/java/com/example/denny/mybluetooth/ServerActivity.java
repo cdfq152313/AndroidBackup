@@ -1,31 +1,26 @@
 package com.example.denny.mybluetooth;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.UUID;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import com.addweup.awubluetooth.io.BluetoothIO;
+import com.addweup.awubluetooth.io.BluetoothIOFactory;
 
 
-public class ServerActivity extends AppCompatActivity{
+public class ServerActivity extends AppCompatActivity implements BluetoothIO.Listener{
 
     public static final String TAG = "BTServer";
 
-    BluetoothManager helper;
     TextView textView;
     EditText editText;
 
-    Executor executor = Executors.newSingleThreadExecutor();
+    BluetoothIO bluetoothIO;
+
+    Handler uiHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,98 +28,52 @@ public class ServerActivity extends AppCompatActivity{
         setContentView(R.layout.activity_server);
         textView = (TextView) findViewById(R.id.textView);
         editText = (EditText) findViewById(R.id.editText);
-        listen();
+
+        bluetoothIO = BluetoothIOFactory.server(BluetoothConfig.UUID);
+        bluetoothIO.setListener(this);
     }
 
-    public void reStartClick(View view){
-        if(helper != null){
-            helper.close();
-            helper = null;
-        }
-        listen();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bluetoothIO.connect();
+        display("Connecting");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        bluetoothIO.disconnect();
     }
 
     public void sendClick(View view){
-        if(helper != null){
-            String text = editText.getText().toString();
-            Log.d(TAG, "sendClick: " + text);
-            helper.send(text);
+        if(bluetoothIO == null){
+            return;
         }
+        bluetoothIO.send(editText.getText().toString());
     }
 
-    Handler handler = new Handler();
-    public void display(final String s){
-        handler.post(new Runnable() {
+    @Override
+    public void onConnect() {
+        display("Connected");
+    }
+
+    @Override
+    public void onResponse(String response) {
+        display(response);
+    }
+
+    @Override
+    public void onDisconnect() {
+        display("Disconnected");
+    }
+
+    private void display(final String text){
+        uiHandler.post(new Runnable() {
             @Override
             public void run() {
-                textView.setText(s);
+                textView.setText(text);
             }
         });
     }
-
-    public void listen(){
-        executor.execute(listenForClient);
-    }
-
-    Runnable listenForClient = new Runnable(){
-
-        BluetoothServerSocket mServerSocket;
-
-        @Override
-        public void run() {
-            Log.d(TAG, "run: Start");
-            BluetoothSocket socket = connect();
-            handleResult(socket);
-            close();
-            Log.d(TAG, "run: End");
-        }
-
-        BluetoothSocket connect(){
-            try {
-                mServerSocket = BluetoothAdapter.getDefaultAdapter().listenUsingRfcommWithServiceRecord(BluetoothConfig.NAME, UUID.fromString(BluetoothConfig.UUID));
-                return mServerSocket.accept();
-            } catch (IOException e) {
-                display("Socket初始化失敗");
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        void close(){
-            try {
-                Log.d(TAG, "close: ");
-                mServerSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        void handleResult(BluetoothSocket socket){
-            Log.d(TAG, "handleResult: ");
-            if(socket == null){
-                return;
-            }
-
-            try{
-                helper = new BluetoothManager(socket);
-                display("Start Connect");
-                executor.execute(continuousDisplayMessage);
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        }
-    };
-
-
-    Runnable continuousDisplayMessage = new Runnable() {
-        @Override
-        public void run() {
-            Log.d(TAG, "continuousDisplayMessage start");
-            while (helper != null){
-                display(helper.receive());
-            }
-            Log.d(TAG, "continuousDisplayMessage end");
-        }
-    };
-
 }

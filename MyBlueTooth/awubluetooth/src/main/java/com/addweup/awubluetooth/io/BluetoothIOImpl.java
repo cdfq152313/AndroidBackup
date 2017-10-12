@@ -58,11 +58,11 @@ public class BluetoothIOImpl implements BluetoothIO, BluetoothCommunicatorInterf
     }
 
     @Override
-    public void onConnected(BluetoothSocket socket) {
+    public void onConnect(BluetoothSocket socket) {
         try{
             bluetoothCommunicator = new BluetoothCommunicator(socket, this);
             if(listener != null){
-                listener.onConnected();
+                listener.onConnect();
             }
         }catch (IOException e){
             bluetoothCommunicator = null;
