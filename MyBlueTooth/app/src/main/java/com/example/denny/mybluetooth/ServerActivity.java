@@ -3,6 +3,7 @@ package com.example.denny.mybluetooth;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,14 +29,14 @@ public class ServerActivity extends AppCompatActivity implements BluetoothIO.Lis
         setContentView(R.layout.activity_server);
         textView = (TextView) findViewById(R.id.textView);
         editText = (EditText) findViewById(R.id.editText);
-
-        bluetoothIO = BluetoothIOFactory.server(BluetoothConfig.UUID);
-        bluetoothIO.setListener(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d(TAG, "onStart: ");
+        bluetoothIO = BluetoothIOFactory.server(BluetoothConfig.UUID);
+        bluetoothIO.setListener(this);
         bluetoothIO.connect();
         display("Connecting");
     }
@@ -43,6 +44,7 @@ public class ServerActivity extends AppCompatActivity implements BluetoothIO.Lis
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d(TAG, "onStop: ");
         bluetoothIO.disconnect();
     }
 
@@ -69,6 +71,7 @@ public class ServerActivity extends AppCompatActivity implements BluetoothIO.Lis
     }
 
     private void display(final String text){
+        Log.d(TAG, "display: " + text);
         uiHandler.post(new Runnable() {
             @Override
             public void run() {

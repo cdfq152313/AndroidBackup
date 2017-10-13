@@ -81,7 +81,7 @@ public class BluetoothIOImpl implements BluetoothIO, BluetoothCommunicatorInterf
     public void onDisconnect() {
         // 斷線會自動重連
         if(listener != null){
-            listener.onResponse(null);
+            listener.onDisconnect();
         }
         bluetoothCommunicator = null;
         bluetoothConnector.connect();

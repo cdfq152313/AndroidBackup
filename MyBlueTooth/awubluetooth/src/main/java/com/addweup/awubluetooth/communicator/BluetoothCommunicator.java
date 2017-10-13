@@ -3,6 +3,7 @@ package com.addweup.awubluetooth.communicator;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,11 +70,14 @@ public class BluetoothCommunicator implements BluetoothCommunicatorInterface{
                 try {
                     while(true) {
                         String response = bufferedReader.readLine();
-                        listener.onResponse(response);
+                        if(response != null){
+                            listener.onResponse(response);
+                        }else{
+                            throw new IOException();
+                        }
                     }
                 } catch (IOException e) {
                     if(!closing){
-                        listener.onDisconnect();
                         close();
                     }
                 }
@@ -82,6 +86,7 @@ public class BluetoothCommunicator implements BluetoothCommunicatorInterface{
     }
 
     public void close(){
+        listener.onDisconnect();
         closing = true;
         try {
             printWriter.close();

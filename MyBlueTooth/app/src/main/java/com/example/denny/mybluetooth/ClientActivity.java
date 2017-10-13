@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -51,6 +52,7 @@ public class ClientActivity extends AppCompatActivity implements BluetoothIO.Lis
                 String deviceName = (String) adapterView.getItemAtPosition(i);
                 for(BluetoothDevice device:pairDevices){
                     if(device.getName().equals(deviceName)){
+                        if(bluetoothIO != null) bluetoothIO.disconnect();
                         bluetoothIO = BluetoothIOFactory.client(device, BluetoothConfig.UUID);
                         bluetoothIO.connect();
                         bluetoothIO.setListener(ClientActivity.this);
@@ -77,6 +79,7 @@ public class ClientActivity extends AppCompatActivity implements BluetoothIO.Lis
     }
 
     public void display(final String s){
+        Log.d(TAG, "display: " + s);
         uiHandler.post(new Runnable() {
             @Override
             public void run() {
