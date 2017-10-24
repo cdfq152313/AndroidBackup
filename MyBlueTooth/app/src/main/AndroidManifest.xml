@@ -21,10 +21,6 @@
         </activity>
         <activity android:name=".ClientActivity" />
         <activity android:name=".ServerActivity"></activity>
-        <service
-            android:name="com.addweup.awubluetooth.BluetoothClientService"
-            android:enabled="true"
-            android:exported="false"></service>
     </application>
 
 </manifest>

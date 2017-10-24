@@ -1,4 +1,4 @@
-package com.addweup.awubluetooth;
+package com.example.denny.mybluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

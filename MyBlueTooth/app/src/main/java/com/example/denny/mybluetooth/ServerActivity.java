@@ -44,8 +44,8 @@ public class ServerActivity extends AppCompatActivity implements BluetoothIO.Lis
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop: ");
-        bluetoothIO.disconnect();
+//        Log.d(TAG, "onStop: ");
+//        bluetoothIO.disconnect();
     }
 
     public void sendClick(View view){
